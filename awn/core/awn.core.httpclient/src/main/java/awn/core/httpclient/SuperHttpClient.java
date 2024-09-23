@@ -11,6 +11,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -28,7 +29,8 @@ public class SuperHttpClient {
 		int timeoutMillis = 90000;
 
 		RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(timeoutMillis)
-				.setConnectTimeout(timeoutMillis).setSocketTimeout(timeoutMillis).build();
+				.setCookieSpec(CookieSpecs.STANDARD).setConnectTimeout(timeoutMillis).setSocketTimeout(timeoutMillis)
+				.build();
 
 		SocketConfig socketConfig = SocketConfig.custom().setSoKeepAlive(true).setTcpNoDelay(true).build();
 
@@ -75,7 +77,9 @@ public class SuperHttpClient {
 			Function<HttpRequestBase, Object> requestExecutor) {
 		int attempts = 0;
 		request.addHeader("Accept-Encoding", "gzip");
-		request.setHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/109.0");
+		request.setHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:129.0) Gecko/20100101 Firefox/129.0");
+		request.setHeader("Accept",
+				"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/png,image/svg+xml,*/*;q=0.8");
 
 		while (true) {
 			attempts++;
